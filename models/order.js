@@ -1,0 +1,31 @@
+const {Schema, model} = require('mongoose');
+const { ObjectId } = Schema;
+
+const orderSchema = new Schema({
+    products: [
+        {
+            product: {
+                type: ObjectId,
+                ref: 'Product',
+            },
+            count: Number,
+            color: String,
+        },
+    ],
+    paymentIntent: {},
+    orderStatus: {
+        type: String,
+        default: 'Not Processed',
+        enum: [
+            "Not Processed",
+            "Cash On Delivery",
+            "Processing",
+            "Dispatched",
+            "Cancelled",
+            "Completed",
+        ],
+    },
+    orderedBy: { type: ObjectId, ref: "User" },
+}, { timestamps: true });
+
+module.exports = model('Order', orderSchema);
